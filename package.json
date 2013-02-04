@@ -1,0 +1,40 @@
+{
+  "name": "transacemail",
+  "description": "Transactional Email for NodeJS",
+  "version": "0.1.0",
+  "homepage": "https://github.com/FGRibreau/node-transacemail",
+  "author": "Francois-Guillaume Ribreau <npm@fgribreau.com> (http://fgribreau.com)",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/FGRibreau/node-transacemail.git"
+  },
+  "bugs": {
+    "url": "https://github.com/FGRibreau/node-transacemail/issues"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/FGRibreau/node-transacemail/blob/master/LICENSE-MIT"
+    }
+  ],
+  "main": "lib/index",
+  "engines": {
+    "node": ">= 0.6.0"
+  },
+  "scripts": {
+    "test": "grunt test"
+  },
+  "devDependencies": {
+    "grunt": "~0.3.15",
+    "nodeunit": "~0.7.4",
+    "grunt-shell": "~0.1.4"
+  },
+  "keywords": [],
+  "dependencies": {
+    "lodash": "~1.0.0-rc.3",
+    "glob": "~3.1.17",
+    "juice": "0.0.6",
+    "q": "~0.8.12",
+    "async": "~0.2.1"
+  }
+}
