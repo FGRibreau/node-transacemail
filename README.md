@@ -2,23 +2,10 @@
 
 ***Transacemail*** provides an organized way to handle transactional email while still being fully decoupled and modular.
 
-## Features
-* Clear Separation of Concerns
-* Supports any file extension
-  - `Mailing.Mail.DEFAULT_HTML_EXT = ".html";`
-  - `Mailing.Mail.DEFAULT_TEXT_EXT = ".text";`
-  - `Mailing.Mail.DEFAULT_META_EXT = ".meta.js";`
-* Supports any Template Engine (underscore template by default)
-  - `mailing.setTemplateEngine(engine);`
-* Supports any Mail Provider (no default) [Mandrill](http://github.com/FGRibreau/node-transacemail-mandrill)...
-  - `mailing.setMailProvider(require('transacemail-mandrill')('apikey'));`
-* Supports any number of CSS files for each email
-  - Css automatically inlined for free thanks to [Juice](https://github.com/LearnBoost/juice)
-
-## Getting Started
+## NPM
 Install the module with: `npm install transacemail`
 
-See [/example/](https://github.com/FGRibreau/node-transacemail/tree/master/example).
+## [Documentation](http://fgribreau.github.com/node-transacemail/docs/index.html)
 
 ## How to implement a TemplateEngine
 TemplateEngine are object that should implement the following methods:

@@ -45,11 +45,16 @@ module.exports = function(grunt) {
         stderr: true,
         failOnError:false,
         warnOnError: true
+      },
+      doxx:{//
+        command:'./node_modules/doxx/bin/doxx --template docs/template.jade --source lib --target docs',
+        stdout:true,
+        stderr:true
       }
     }
   });
 
   // Default task.
-  grunt.registerTask('default', 'lint shell:nodeunit_simple');
+  grunt.registerTask('default', 'lint shell:doxx shell:nodeunit_simple');
   grunt.registerTask('test', 'lint shell:nodeunit_simple');
 };
