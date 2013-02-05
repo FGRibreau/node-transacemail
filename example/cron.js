@@ -56,12 +56,11 @@ var mails = Mailing.compile(templateDir, {
   mailProvider:require('transacemail-mandrill')('apikey')
 });
 
-// Now just try to send email to the users
-
+// Now we just have to send email to the users
 function sender(user, cb){
   // See ./mails/mail1.meta.js .sendIf()
   // Every parameters will be forwarded to .sendIf function from each {mail}.meta.js
-  // if {mail}.sendIf returns an object instead of false, that object will be forwarded to the mail:
+  // if {mail}.sendIf returns an object instead of false:
   // - the email will be compiled the HTML template (if specified) with the specified object
   // - and then send through the mail provider
   mails
