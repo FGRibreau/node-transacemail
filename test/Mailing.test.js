@@ -134,6 +134,24 @@ exports['Mailing'] = {
   },
 
   '.setTemplateEngine': function(t){
+    var mailing = Mailing.compile(path.resolve(__dirname, 'mails1'));
+    t.throws(function(){
+      mailing.setTemplateEngine();
+    });
+
+    t.throws(function(){
+      mailing.setTemplateEngine({});
+    });
+
+    t.throws(function(){
+      mailing.setTemplateEngine({compile: function(){}, exec: function(){}});
+    });
+
+    t.throws(function(){
+      mailing.setTemplateEngine({compile: function(template){}, exec: function(fnCompiledTemplate){}});
+    });
+
+    t.deepEqual(mailing.setTemplateEngine({compile: function(template){}, exec: function(fnCompiledTemplate, data){}}), mailing);
     t.done();
   }
 };
