@@ -47,8 +47,8 @@ module.exports = function(grunt) {
         warnOnError: true
       },
 
-      ci: {//--reporter minimal
-        command: './node_modules/nodeunit/bin/nodeunit --reporter skip_passed test/*.js',
+      ci: {
+        command: './node_modules/nodeunit/bin/nodeunit --reporter verbose test/*.js test/*.js',
         stdout: true,
         stderr: true,
         failOnError:true,
