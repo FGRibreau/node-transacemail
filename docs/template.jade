@@ -144,13 +144,13 @@ html
                 | )
                 ul
                   li
-                    code mailing.setTemplateEngine(engine);
+                    code Mailing.compile(mailDir, {templateEngine: engine});
               p Supports any Mail Provider (e.g  
                 a(href="http://github.com/FGRibreau/node-transacemail-mandrill") Mandrill
                 | )
                 ul
                   li
-                    code mailing.setMailProvider(require('transacemail-mandrill')('apikey'));
+                    code Mailing.compile(mailDir, {mailProvider: require('transacemail-mandrill')('apikey')});
               p Supports any number of CSS files for each email. CSS is automatically inlined for free thanks to 
                 a(href="https://github.com/LearnBoost/juice") Juice
               p Supports any file extension

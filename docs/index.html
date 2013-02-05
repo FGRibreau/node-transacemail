@@ -129,12 +129,12 @@
               <p>Clear Separation of Concerns</p>
               <p>Supports any Template Engine (e.g. <a href="http://underscorejs.org/#template">Underscore Templates</a>)
                 <ul>
-                  <li><code>mailing.setTemplateEngine(engine);</code></li>
+                  <li><code>Mailing.compile(mailDir, {templateEngine: engine});</code></li>
                 </ul>
               </p>
               <p>Supports any Mail Provider (e.g  <a href="http://github.com/FGRibreau/node-transacemail-mandrill">Mandrill</a>)
                 <ul>
-                  <li><code>mailing.setMailProvider(require('transacemail-mandrill')('apikey'));</code></li>
+                  <li><code>Mailing.compile(mailDir, {mailProvider: require('transacemail-mandrill')('apikey')});</code></li>
                 </ul>
               </p>
               <p>Supports any number of CSS files for each email. CSS is automatically inlined for free thanks to <a href="https://github.com/LearnBoost/juice">Juice</a></p>
