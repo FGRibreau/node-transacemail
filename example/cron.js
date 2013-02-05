@@ -52,7 +52,7 @@ var mails = Mailing.compile(templateDir, {
     }
   },
 
-  // Setup the mail provider (required)
+  // Setup the mail provider (mandatory)
   mailProvider:require('transacemail-mandrill')('apikey')
 });
 
