@@ -99,7 +99,7 @@ exports['Mailing'] = {
         send: function(mail, fn){
           if(i++ === 0){
             t.deepEqual(mail.mandrill, { message: { subject: 'Thank you !',from_email: 'plop@plop.com',from_name: 'Mr Plop' } });
-            t.equal(mail.html, '<div style=\"background-color: #ff00ff; color: #0000ff;\">ploop</div>\n<div style=\"background-color: #ff00ff; color: #0000ff;\">Awesome.</div>\n');
+            t.equal(mail.html, '<div style="background-color: #ff00ff; color: #0000ff;">Plop ploop</div>\n<div style="background-color: #ff00ff; color: #0000ff;">Awesome !!</div>\n');
             t.deepEqual(mail.data, {heyOh:"heyOh",Hey: "ploop"}, "");
           }
           fn();
@@ -107,12 +107,11 @@ exports['Mailing'] = {
       }
     });
 
-    var mail = Mailing.Mail.Factory(Mailing.templateEngine, path.resolve(__dirname, 'mails1/j0_thanks.meta.js'));
 
     mailing._sendThroughProvider(function(){
       t.ok(true);
       t.done();
-    }, mail, {
+    }, mailing.mails[1], {
       heyOh:"heyOh",
       Hey: "ploop"
     });

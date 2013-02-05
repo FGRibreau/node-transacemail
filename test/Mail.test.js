@@ -51,7 +51,7 @@ exports['Mail'] = {
   '._readMeta': function(t) {
     t.expect(2);
     var mail = new Mail(Mailing.templateEngine, path.resolve(__dirname, 'mails1/j0_thanks.meta.js'))._readMeta();
-    t.deepEqual(mail.styles, ["css/global.css"]);
+    t.deepEqual(mail.styles, [ './css/global.css' ]);
     t.ok(_.isFunction(mail.sendIf));
     t.done();
   },
@@ -66,7 +66,7 @@ exports['Mail'] = {
   '._readHTML (found)': function(t) {
     var mail   = new Mail(Mailing.templateEngine, path.resolve(__dirname, 'mails1/j1_hey.meta.js'));
     t.deepEqual(mail._readHTML(), mail, "chainable");
-    t.strictEqual(mail.html, "HTML5\n");
+    t.strictEqual(mail.html, "<div>Plop {{ Hey }}</div>\n<div>Awesome !!</div>\n");
     t.done();
   },
 
@@ -94,17 +94,17 @@ exports['Mail'] = {
 
   '._mergeCss (with one css)': function(t) {
     var mail   = new Mail(Mailing.templateEngine, path.resolve(__dirname, 'mails1/j0_thanks.meta.js'))._readMeta();
-    t.deepEqual(mail.styles, [ 'css/global.css' ]);
+    t.deepEqual(mail.styles, [ './css/global.css']);
     t.deepEqual(mail._readHTML()._mergeCss(), mail, "chainable");
     t.strictEqual(mail.html, "<div style=\"background-color: #ff00ff;\">{{ Hey }}</div>\n<div style=\"background-color: #ff00ff;\">Awesome.</div>\n");
     t.done();
   },
 
   '._mergeCss (with multiple css)': function(t) {
-    var mail   = new Mail(Mailing.templateEngine, path.resolve(__dirname, 'mails1/j0_thanks.meta.js'))._readMeta();
-    mail.styles.push('css/extra.css');
+    var mail   = new Mail(Mailing.templateEngine, path.resolve(__dirname, 'mails1/j1_hey.meta.js'))._readMeta();
+    t.deepEqual(mail.styles, [ './css/global.css', './css/extra.css']);
     t.deepEqual(mail._readHTML()._mergeCss(), mail, "chainable");
-    t.strictEqual(mail.html, "<div style=\"background-color: #ff00ff; color: #0000ff;\">{{ Hey }}</div>\n<div style=\"background-color: #ff00ff; color: #0000ff;\">Awesome.</div>\n");
+    t.strictEqual(mail.html, "<div style=\"background-color: #ff00ff; color: #0000ff;\">Plop {{ Hey }}</div>\n<div style=\"background-color: #ff00ff; color: #0000ff;\">Awesome !!</div>\n");
     t.done();
   },
 
@@ -119,7 +119,7 @@ exports['Mail'] = {
        from_email: 'plop@plop.com',
        from_name: 'Mr Plop' }
     });
-    t.equal(mail2.html, '<div style=\"background-color: #ff00ff; color: #0000ff;\">ok</div>\n<div style=\"background-color: #ff00ff; color: #0000ff;\">Awesome.</div>\n');
+    t.equal(mail2.html, '<div style="background-color: #ff00ff;">ok</div>\n<div style="background-color: #ff00ff;">Awesome.</div>\n');
     t.equal(mail2.text, 'Hello ok\n================\n');
     t.deepEqual(mail2.data, { Hey: 'ok' });
     t.done();

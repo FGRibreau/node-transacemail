@@ -2,7 +2,7 @@ module.exports = {
   /**
    * Style to embed
    */
-  "styles":["global.css"],
+  "styles":["./css/global.css", "./css/extra.css"],
 
   /**
    * Mandrill parameters

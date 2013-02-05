@@ -48,7 +48,7 @@ module.exports = function(grunt) {
       },
 
       ci: {
-        command: './node_modules/nodeunit/bin/nodeunit --reporter verbose test/*.js test/*.js',
+        command: './node_modules/nodeunit/bin/nodeunit test/*.js',
         stdout: true,
         stderr: true,
         failOnError:true,
