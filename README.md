@@ -1,4 +1,4 @@
-# Transactional Email & Templated Email for NodeJS done right [![Build Status](https://travis-ci.org/FGRibreau/node-transacemail.png)](https://travis-ci.org/FGRibreau/node-transacemail)
+# Transactional Email & Templated Email for NodeJS done right [![Build Status](https://travis-ci.org/FGRibreau/node-transacemail.png)](https://travis-ci.org/FGRibreau/node-transacemail) [![Build Status](https://drone.io/github.com/FGRibreau/node-transacemail/status.png)](https://drone.io/github.com/FGRibreau/node-transacemail/latest)
 
 ***Transacemail*** provides an organized way to handle transactional email while still being fully decoupled and modular.
 

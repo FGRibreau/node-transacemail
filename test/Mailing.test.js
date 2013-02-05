@@ -48,7 +48,14 @@ exports['Mailing'] = {
 
   '.sendIf should forward the {mail}.sendIf parameters ': function(t){
     t.expect(1);
-    var mails = Mailing.compile(path.resolve(__dirname, 'mails_sendIf'));
+    var mails = Mailing.compile(path.resolve(__dirname, 'mails_sendIf'), {
+      mailProvider:{
+        send: function(mail, fn){
+          t.ok(mail.isAnEmail);
+          fn();
+        }
+      }
+    });
     mails.mails = [{
       sendIf: function(a, b, c, fn){
         fn(_.extend(b, {plop:true}));
@@ -59,13 +66,6 @@ exports['Mailing'] = {
         };
       }
     }, {sendIf: function(a, b, c,fn){return fn(false);}}];
-
-    mails.setMailProvider({
-      send: function(mail, fn){
-        t.ok(mail.isAnEmail);
-        fn();
-      }
-    });
 
     mails.sendIf(true, {hey:['a']}, 1);
     t.done();
@@ -93,17 +93,17 @@ exports['Mailing'] = {
 
   '_sendThroughProvider should call mail._compileWith & provider.send': function(t){
     t.expect(4);
-    var mailing = Mailing.compile(path.resolve(__dirname, 'mails1'));
-    var mail = Mailing.Mail.Factory(Mailing.templateEngine, path.resolve(__dirname, 'mails1/j0_thanks.meta.js'));
-
-    mailing.setMailProvider({
-      send: function(mail, fn){
-        t.deepEqual(mail.mandrill, { message: { subject: 'Thank you !',from_email: 'plop@plop.com',from_name: 'Mr Plop' } });
-        t.equal(mail.html, '<div style=\"background-color: #ff00ff; color: #0000ff;\">ploop</div>\n<div style=\"background-color: #ff00ff; color: #0000ff;\">Awesome.</div>\n');
-        t.deepEqual(mail.data, {heyOh:"heyOh",Hey: "ploop"}, "");
-        fn();
+    var mailing = Mailing.compile(path.resolve(__dirname, 'mails1'), {
+      mailProvider:{
+        send: function(mail, fn){
+          t.deepEqual(mail.mandrill, { message: { subject: 'Thank you !',from_email: 'plop@plop.com',from_name: 'Mr Plop' } });
+          t.equal(mail.html, '<div style=\"background-color: #ff00ff; color: #0000ff;\">ploop</div>\n<div style=\"background-color: #ff00ff; color: #0000ff;\">Awesome.</div>\n');
+          t.deepEqual(mail.data, {heyOh:"heyOh",Hey: "ploop"}, "");
+          fn();
+        }
       }
     });
+    var mail = Mailing.Mail.Factory(Mailing.templateEngine, path.resolve(__dirname, 'mails1/j0_thanks.meta.js'));
 
     mailing._sendThroughProvider(function(){
       t.ok(true);
@@ -114,44 +114,62 @@ exports['Mailing'] = {
     });
   },
 
-  '.setMailProvider': function(t){
+  '.compile mailProvider': function(t){
     t.expect(4);
-    var mailing = Mailing.compile(path.resolve(__dirname, 'mails1'));
+
     t.throws(function(){
-      mailing.setMailProvider();
+      Mailing.compile(path.resolve(__dirname, 'mails1'),{
+        mailProvider:{plop:true}
+      });
     });
 
     t.throws(function(){
-      mailing.setMailProvider({});
+      Mailing.compile(path.resolve(__dirname, 'mails1'),{
+        mailProvider:{}
+      });
     });
 
     t.throws(function(){
-      mailing.setMailProvider({send: function(){}});
+      Mailing.compile(path.resolve(__dirname, 'mails1'),{
+        mailProvider:{send: function(){}}
+      });
     });
 
-    t.deepEqual(mailing.setMailProvider({send: function(mail, fn){}}), mailing);
+    t.ok(Mailing.compile(path.resolve(__dirname, 'mails1'),{
+      mailProvider:{send: function(mail, fn){}}
+    }) instanceof Mailing);
+
     t.done();
   },
 
-  '.setTemplateEngine': function(t){
-    var mailing = Mailing.compile(path.resolve(__dirname, 'mails1'));
+  '.compile templateEngine': function(t){
     t.throws(function(){
-      mailing.setTemplateEngine();
+      Mailing.compile(path.resolve(__dirname, 'mails1'),{
+        templateEngine:{}
+      });
     });
 
     t.throws(function(){
-      mailing.setTemplateEngine({});
+      Mailing.compile(path.resolve(__dirname, 'mails1'),{
+        templateEngine:{}
+      });
     });
 
     t.throws(function(){
-      mailing.setTemplateEngine({compile: function(){}, exec: function(){}});
+      Mailing.compile(path.resolve(__dirname, 'mails1'),{
+        templateEngine:{compile: function(){}, exec: function(){}}
+      });
     });
 
     t.throws(function(){
-      mailing.setTemplateEngine({compile: function(template){}, exec: function(fnCompiledTemplate){}});
+      Mailing.compile(path.resolve(__dirname, 'mails1'),{
+        templateEngine:{compile: function(template){}, exec: function(fnCompiledTemplate){}}
+      });
     });
 
-    t.deepEqual(mailing.setTemplateEngine({compile: function(template){}, exec: function(fnCompiledTemplate, data){}}), mailing);
+    Mailing.compile(path.resolve(__dirname, 'mails1'),{
+      templateEngine:{compile: function(template){}, exec: function(fnCompiledTemplate, data){}}
+    });
     t.done();
   }
 };

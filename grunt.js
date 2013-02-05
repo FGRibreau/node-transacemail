@@ -46,6 +46,14 @@ module.exports = function(grunt) {
         failOnError:false,
         warnOnError: true
       },
+
+      ci: {//--reporter minimal
+        command: './node_modules/nodeunit/bin/nodeunit --reporter skip_passed test/*.js',
+        stdout: true,
+        stderr: true,
+        failOnError:true,
+        warnOnError: true
+      },
       doxx:{//
         command:'./node_modules/doxx/bin/doxx --template docs/template.jade --source lib --target docs',
         stdout:true,
@@ -56,5 +64,5 @@ module.exports = function(grunt) {
 
   // Default task.
   grunt.registerTask('default', 'lint shell:doxx shell:nodeunit_simple');
-  grunt.registerTask('test', 'lint shell:nodeunit_simple');
+  grunt.registerTask('test', 'lint shell:ci');
 };

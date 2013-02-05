@@ -59,7 +59,7 @@ exports['Mail'] = {
   '._readHTML (not found)': function(t) {
     var mail   = new Mail(Mailing.templateEngine, path.resolve(__dirname, 'mails_withoutHTML/j0_thanks.meta.js'));
     t.deepEqual(mail._readHTML(), mail, "chainable");
-    t.strictEqual(mail.html, undefined);
+    t.strictEqual(mail.html, null);
     t.done();
   },
 
@@ -73,7 +73,7 @@ exports['Mail'] = {
   '._readText (not found)': function(t) {
     var mail   = new Mail(Mailing.templateEngine, path.resolve(__dirname, 'mails_withoutText/j0_thanks.meta.js'));
     t.deepEqual(mail._readText(), mail, "chainable");
-    t.strictEqual(mail.text, undefined);
+    t.strictEqual(mail.text, null);
     t.done();
   },
 

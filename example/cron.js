@@ -24,26 +24,39 @@ var globalData = {
   currentDate: Date.now()
 };
 
-// Change defaults
-// Mailing.Mail.DEFAULT_META_EXT = ".meta.js";
-// Mailing.Mail.DEFAULT_HTML_EXT = ".html";
-// Mailing.Mail.DEFAULT_TEXT_EXT = ".txt";
+// File extension can be customized
+Mailing.Mail.DEFAULT_META_EXT = ".meta.js";
+Mailing.Mail.DEFAULT_HTML_EXT = ".html";
+Mailing.Mail.DEFAULT_TEXT_EXT = ".txt";
 
-// Change the template engine
-// Mailing.Mail.setTemplateEngine({
-//   compile:function(templateString){
-//     return _.template(templateString, null, {interpolate : /\{\{(.+?)\}\}/g});
-//   },
-//   exec: function(compiledTemplate, data){
-//     return compiledTemplate(data);
-//   }
-// });
+
+var templateDir = require('path').resolve(__dirname, './mails');
 
 // Compile all templates in ./mails
-var mails = Mailing.compile(require('path').resolve(__dirname, './mails'));
+var mails = Mailing.compile(templateDir, {
+  /**
+   * Option object
+   */
 
-// Setup the mail provider
-mails.setMailProvider(require('transacemail-mandrill')('apikey'));
+  // Setup the template engine (optional)
+  templateEngine: {
+    compile:function(templateString){
+      return _.template(templateString, null, {
+        evaluate:    /\{\{#([\s\S]+?)\}\}/g,            // {{# console.log("blah") }}
+        interpolate: /\{\{[^#\{]([\s\S]+?)[^\}]\}\}/g,  // {{ title }}
+        escape:      /\{\{\{([\s\S]+?)\}\}\}/g          // {{{ title }}}
+      });
+    },
+    exec: function(compiledTemplate, data){
+      return compiledTemplate(data);
+    }
+  },
+
+  // Setup the mail provider (required)
+  mailProvider:require('transacemail-mandrill')('apikey')
+});
+
+// Now just try to send email to the users
 
 function sender(user, cb){
   // See ./mails/mail1.meta.js .sendIf()

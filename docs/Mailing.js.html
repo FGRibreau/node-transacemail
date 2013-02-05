@@ -97,7 +97,7 @@
     </div>
     <header id="overview" class="jumbotron subhead">
       <div class="container">
-        <h1>Node Transacemail</h1>
+        <h1>Node TransacEmail</h1>
         <p class="lead">Transactional Email & Templated Email for NodeJS done right</p>
       </div>
     </header>
@@ -115,10 +115,6 @@
               <li><a href="#compile"><i class="alert alert-info"></i>compile</a>
               </li>
               <li><a href="#sendIf"><i class="alert alert-info"></i>sendIf</a>
-              </li>
-              <li><a href="#setMailProvider"><i class="alert alert-info"></i>setMailProvider</a>
-              </li>
-              <li><a href="#setTemplateEngine"><i class="alert alert-info"></i>setTemplateEngine</a>
               </li>
               <li><a href="#mailProvider"><i class="alert alert-success"></i>mailProvider</a>
               </li>
@@ -196,11 +192,16 @@
                 <td>String</td>
                 <td>Path to mails folder</td>
               </tr>
+              <tr>
+                <td>options</td>
+                <td>Object</td>
+                <td>Option object option parameters are:</td>
+              </tr>
             </tbody>
           </table>
           <div class="description"><p>Mailing Factory</p> 
-            <pre><code class="language-javascript">Mailing.compile = function(path){
-  var mailing = new Mailing();
+            <pre><code class="language-javascript">Mailing.compile = function(path, options){
+  var mailing = new Mailing(options);
   return mailing._reset(path);
 };</code></pre>
           </div>
@@ -245,71 +246,6 @@
   return deferred.promise;
 };</code></pre>
           </div>
-          <section id="setMailProvider">
-            <h1>setMailProvider</h1>
-            <p>
-              <div class="label label-info radius ctx-type">method</div><span>Mailing.prototype.setMailProvider()</span>
-            </p>
-          </section>
-          <table class="table table-bordered table-striped">
-            <thead>
-              <tr>
-                <th style="width:20%">Option name</th>
-                <th style="width:20%">Type</th>
-                <th>Description</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>provider</td>
-                <td>Object</td>
-                <td>Mail Provider to use</td>
-              </tr>
-            </tbody>
-          </table>
-          <div class="description"><p>Set the Mail Provider</p> 
-            <pre><code class="language-javascript">Mailing.prototype.setMailProvider = function(provider){
-  if(!provider || !_.isFunction(provider.send) || provider.send.length !== 2){
-    throw new Error(Mailing.MAIL_PROVIDER_ERR);
-  }
-
-  this.mailProvider = provider;
-  return this;
-};</code></pre>
-          </div>
-          <section id="setTemplateEngine">
-            <h1>setTemplateEngine</h1>
-            <p>
-              <div class="label label-info radius ctx-type">method</div><span>Mailing.prototype.setTemplateEngine()</span>
-            </p>
-          </section>
-          <table class="table table-bordered table-striped">
-            <thead>
-              <tr>
-                <th style="width:20%">Option name</th>
-                <th style="width:20%">Type</th>
-                <th>Description</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>engine</td>
-                <td>Object</td>
-                <td>Template Engine to use</td>
-              </tr>
-            </tbody>
-          </table>
-          <div class="description"><p>Set the Template Engine</p> 
-            <pre><code class="language-javascript">Mailing.prototype.setTemplateEngine = function(engine){
-  if(!engine.compile || !_.isFunction(engine.compile) || engine.compile.length !== 1 ||
-    !engine.exec || !_.isFunction(engine.exec) || engine.exec.length !== 2){
-    throw new Error(Mailing.TEMPLATE_ENGINE_ERR);
-  }
-
-  this.templateEngine = engine;
-  return this;
-};</code></pre>
-          </div>
           <section id="mailProvider">
             <h1>mailProvider</h1>
             <p>
@@ -332,7 +268,11 @@
           <div class="description"><p>Default template engine (Underscore template)</p> 
             <pre><code class="language-javascript">Mailing.templateEngine = {
   compile:function(templateString){
-    return _.template(templateString, null, {interpolate : /\{\{(.+?)\}\}/g});
+    return _.template(templateString, null, {
+      evaluate:    /\{\{#([\s\S]+?)\}\}/g,            // {{# console.log(&quot;blah&quot;) }}
+      interpolate: /\{\{[^#\{]([\s\S]+?)[^\}]\}\}/g,  // {{ title }}
+      escape:      /\{\{\{([\s\S]+?)\}\}\}/g         // {{{ title }}}
+    });
   },
   exec: function(compiledTemplate, data){
     return compiledTemplate(data);
