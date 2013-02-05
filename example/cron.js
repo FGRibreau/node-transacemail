@@ -68,7 +68,7 @@ function sender(user, cb){
     .fin(done);
 }
 
-// Loop over our users (or anything else)
+// Loop over our users (or anything else) and send emails (only if necessary)
 async.forEachLimit(5, users, sender, function(){
   console.log('DONE !');
 });
