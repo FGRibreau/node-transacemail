@@ -20,18 +20,21 @@ module.exports = {
   },
 
   /**
-   * [sendIf description]
+   * Send the email only if the `sendIf` returns an object.
    * @param  {Mixed} args  0, 1 or more parameters
    * @return {Boolean|Object} false, the email will not be send. Otherwise return an object
+   *
+   * The object must at least contain an `email` and a `name` field
    */
-  sendIf: function(user, globalData, _){
+  sendIf: function(utilisateur, globalData, _, fn){
+
     if(user.lastConnected < 1 && !user.online /* && and other rules... */){
       // The user does not match the rules for this email
-      return false;
+      return fn(false);
     }
 
     // Otherwise, send the current email to the user
     // `.sendIf` returned data will be injected into the templates (if any)
-    return _.extend(user, globalData);
+    return fn(_.extend(user, globalData));
   }
 };

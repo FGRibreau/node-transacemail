@@ -17,6 +17,7 @@ module.exports = {
     }
   },
 
-  accept: function(){
+  sendIf: function(fn){
+    fn(false);
   }
 };

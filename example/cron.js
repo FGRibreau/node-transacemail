@@ -6,14 +6,15 @@ var _       = require('lodash');
  * Simulate a database
  */
 var users = [{
-    name:"Barney",
-    surname:"Stinson",
+    // `email` and `name` are the only required field for node-transacemail to work
+    email:'barney@awesome.com',
+    name:"Barney Stinson",
     lastConnected:1, // number of days
     online:true,
     myOtherVariable:["a","b","c"]
 },{
-    name:"Ted",
-    surname:"Mosby",
+    email:'ted@awesome.com',
+    name:"Ted Mosby",
     lastConnected:10, // number of days
     online:false,
     myOtherVariable:[]
@@ -50,7 +51,9 @@ function sender(user, cb){
   // if {mail}.sendIf returns an object instead of false, that object will be forwarded to the mail:
   // - the email will be compiled the HTML template (if specified) with the specified object
   // - and then send through the mail provider
-  mails.sendIf(user, globalData, _ /* , etc... */).always(done);
+  mails
+    .sendIf(user, globalData, _ /* , etc... */)
+    .fin(done);
 }
 
 // Loop over our users (or anything else)
