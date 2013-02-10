@@ -1,5 +1,5 @@
 {
-  "version": "0.1.1",
+  "version": "0.1.2",
   "name": "transacemail",
   "description": "Transactional Email & Templated Email for NodeJS",
   "homepage": "https://github.com/FGRibreau/node-transacemail",
@@ -19,7 +19,7 @@
   ],
   "main": "lib/index",
   "engines": {
-    "node": ">= 0.8.0"
+    "node": ">= 0.6.0"
   },
   "dependencies": {
     "lodash": "~1.0.0-rc.3",
