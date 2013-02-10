@@ -80,13 +80,13 @@ exports['Mailing'] = {
   '_sendThroughProvider should not be called if sendIf returned nothing': function(t){
     t.expect(4);
     var mailing = Mailing.compile(path.resolve(__dirname, 'mails1'));
-    mailing._sendThroughProvider(function(a, b){
-      t.strictEqual(a, undefined);
-      t.strictEqual(b, undefined);
+    mailing._sendThroughProvider(function(err, res){
+      t.deepEqual(err, new Error("sendIf returned a falsy value"), "err");
+      t.deepEqual(res, undefined);
     }, {}, false);
-    mailing._sendThroughProvider(function(a, b){
-      t.strictEqual(a, undefined);
-      t.strictEqual(b, undefined);
+    mailing._sendThroughProvider(function(err, res){
+      t.deepEqual(err, new Error("sendIf returned a falsy value"), "err");
+      t.deepEqual(res, undefined);
     }, {});
     t.done();
   },
@@ -116,6 +116,16 @@ exports['Mailing'] = {
       Hey: "ploop"
     });
   },
+
+  '.getMail(name)': function(t){
+    var mailing = Mailing.compile(path.resolve(__dirname, 'mails1'));
+
+    t.strictEqual(mailing.getMail(), undefined);
+    t.deepEqual(mailing.getMail(''), undefined);
+    t.deepEqual(mailing.getMail('j0_thanks'), mailing.mails[0]);
+    t.done();
+  },
+
 
   '.compile mailProvider': function(t){
     t.expect(4);
