@@ -33,13 +33,19 @@ exports['Mailing'] = {
   },
 
   '.sendIf': function(t){
-    t.expect(3);
+    t.expect(5);
     var mails = Mailing.compile(path.resolve(__dirname, 'mails_sendIf'));
     mails.mails = [{
       sendIf: function(a, b, c, fn){
+        t.equal(arguments.length, 4);
         t.equal(a, true);
         t.deepEqual(b, {hey:['a']});
         t.equal(c, 1);
+        return fn(false);
+      }
+    },{
+      sendIf: function(a, b, c, fn){
+        t.equal(arguments.length, 4, "arguments.length should be 4");
         return fn(false);
       }
     }];
@@ -56,6 +62,7 @@ exports['Mailing'] = {
         }
       }
     });
+
     mails.mails = [{
       sendIf: function(a, b, c, fn){
         fn(_.extend(b, {plop:true}));
@@ -67,8 +74,9 @@ exports['Mailing'] = {
       }
     }, {sendIf: function(a, b, c,fn){return fn(false);}}];
 
-    mails.sendIf(true, {hey:['a']}, 1);
-    t.done();
+    mails.sendIf(true, {hey:['a']}, 1).fin(function(){
+      t.done();
+    });
   },
 
   '.setProvider': function(t){
