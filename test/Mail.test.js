@@ -48,6 +48,12 @@ exports['Mail'] = {
     t.done();
   },
 
+  'getMailing': function(t){
+    var mail = new Mail(Mailing.templateEngine, path.resolve(__dirname, 'mails1/j0_thanks.meta.js'))._readMeta();
+    t.strictEqual(mail.getMailing(), null);
+    t.done();
+  },
+
   '._readMeta': function(t) {
     t.expect(2);
     var mail = new Mail(Mailing.templateEngine, path.resolve(__dirname, 'mails1/j0_thanks.meta.js'))._readMeta();

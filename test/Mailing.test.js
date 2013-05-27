@@ -52,6 +52,17 @@ exports['Mailing'] = {
     mails.sendIf(true, {hey:['a']}, 1).fin(t.done.bind(t));
   },
 
+  '.sendIf should set the ._mailing to email': function(t){
+    t.expect(1);
+    var mails = Mailing.compile(path.resolve(__dirname, 'mails_sendIf'));
+    mails.mails = [_.first(mails.mails)];
+    _.first(mails.mails).sendIf = function(f){
+      t.deepEqual(this.getMailing(), mails);
+      f(false);
+    };
+    mails.sendIf().fin(t.done.bind(t));
+  },
+
   '.sendIf should forward the {mail}.sendIf parameters ': function(t){
     t.expect(1);
     var mails = Mailing.compile(path.resolve(__dirname, 'mails_sendIf'), {
