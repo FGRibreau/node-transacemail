@@ -23,6 +23,9 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 ## Release History
 v0.1.0 - Initial commit (4 fev. 2012)
 
+## Donate
+[Donate Bitcoins](https://coinbase.com/checkouts/fc3041b9d8116e0b98e7d243c4727a30)
+
 ## License
 Copyright (c) 2013 Francois-Guillaume Ribreau
 Licensed under the MIT license.
