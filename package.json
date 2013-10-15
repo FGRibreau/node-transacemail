@@ -1,5 +1,5 @@
 {
-  "version": "0.1.5",
+  "version": "0.1.6",
   "name": "transacemail",
   "description": "Transactional Email & Templated Email for NodeJS",
   "homepage": "https://github.com/FGRibreau/node-transacemail",
@@ -24,7 +24,7 @@
   "dependencies": {
     "lodash": "~1.0.0-rc.3",
     "glob": "~3.1.17",
-    "juice": "0.0.6",
+    "juice": "0.4.0",
     "q": "~0.8.12",
     "async": "~0.2.1",
     "deep-extend": "~0.2.5"
@@ -44,6 +44,6 @@
     "grunt": "~0.3.15",
     "nodeunit": "~0.7.4",
     "grunt-shell": "~0.1.4",
-    "doxx": "~0.5.9"
+    "doxx": "~0.7.0"
   }
 }
