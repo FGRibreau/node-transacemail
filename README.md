@@ -21,6 +21,11 @@ See [node-transacemail-mandrill](http://github.com/FGRibreau/node-transacemail-m
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [grunt](https://github.com/cowboy/grunt).
 
 ## Release History
+
+v0.1.8 
+
+- Removed support for 0.6
+
 v0.1.0 - Initial commit (4 fev. 2012)
 
 ## Donate
