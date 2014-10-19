@@ -22,7 +22,7 @@
   "dependencies": {
     "lodash": "~1.0.0-rc.3",
     "glob": "~3.1.17",
-    "juice": "git+ssh://git@github.com:FGRibreau/juice.git",
+    "juice": "https://github.com/FGRibreau/juice.git",
     "q": "~0.8.12",
     "async": "~0.2.1",
     "deep-extend": "~0.2.5"
