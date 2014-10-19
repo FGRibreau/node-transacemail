@@ -1,6 +1,6 @@
 var Mailing = require('../');
-var path    = require('path');
-var _       = require('lodash');
+var path = require('path');
+var _ = require('lodash');
 /*
   ======== A Handy Little Nodeunit Reference ========
   https://github.com/caolan/nodeunit
@@ -22,52 +22,56 @@ var _       = require('lodash');
 */
 
 exports['Mailing'] = {
-  setUp: function(done) {
+  setUp: function (done) {
     // setup here
     done();
   },
-  'init': function(t) {
+  'init': function (t) {
     var mailing = Mailing.compile(path.resolve(__dirname, 'mails1'));
     t.equal(mailing.mails.length, 2);
     t.done();
   },
 
-  '.sendIf': function(t){
+  '.sendIf': function (t) {
     t.expect(5);
     var mails = Mailing.compile(path.resolve(__dirname, 'mails_sendIf'));
     mails.mails = [{
-      sendIf: function(a, b, c, fn){
+      sendIf: function (a, b, c, fn) {
         t.equal(arguments.length, 4);
         t.equal(a, true);
-        t.deepEqual(b, {hey:['a']});
+        t.deepEqual(b, {
+          hey: ['a']
+        });
         t.equal(c, 1);
         return fn(false);
       }
-    },{
-      sendIf: function(a, b, c, fn){
+    }, {
+      sendIf: function (a, b, c, fn) {
         t.equal(arguments.length, 4, "arguments.length should be 4");
         return fn(false);
       }
     }];
-    mails.sendIf(true, {hey:['a']}, 1).fin(t.done.bind(t));
+    mails.sendIf(true, {
+      hey: ['a']
+    }, 1).fin(t.done.bind(t));
   },
 
-  '.sendIf should set the ._mailing to email': function(t){
+  '.sendIf should set the ._mailing to email': function (t) {
     t.expect(1);
     var mails = Mailing.compile(path.resolve(__dirname, 'mails_sendIf'));
     mails.mails = [_.first(mails.mails)];
-    _.first(mails.mails).sendIf = function(f){
+    _.first(mails.mails).sendIf = function (f) {
       t.deepEqual(this.getMailing(), mails);
       f(false);
     };
     mails.sendIf().fin(t.done.bind(t));
   },
 
-  '.sendIf should forward the {mail}.sendIf parameters ': function(t){
+  '.sendIf should forward the {mail}.sendIf parameters ': function (t) {
     t.expect(1);
     var mails = Mailing.compile(path.resolve(__dirname, 'mails_sendIf'), {
-      mailProvider:{
-        send: function(mail, fn){
+      mailProvider: {
+        send: function (mail, fn) {
           t.ok(mail.isAnEmail);
           fn();
         }
@@ -75,51 +79,68 @@ exports['Mailing'] = {
     });
 
     mails.mails = [{
-      sendIf: function(a, b, c, fn){
-        fn(_.extend(b, {plop:true}));
+      sendIf: function (a, b, c, fn) {
+        fn(_.extend(b, {
+          plop: true
+        }));
       },
-      _compileWith: function(obj){
+      _compileWith: function (obj) {
         return {
           isAnEmail: true
         };
       }
-    }, {sendIf: function(a, b, c,fn){return fn(false);}}];
+    }, {
+      sendIf: function (a, b, c, fn) {
+        return fn(false);
+      }
+    }];
 
-    mails.sendIf(true, {hey:['a']}, 1).fin(function(){
+    mails.sendIf(true, {
+      hey: ['a']
+    }, 1).fin(function () {
       t.done();
     });
   },
 
-  '.setProvider': function(t){
+  '.setProvider': function (t) {
     var mailing = Mailing.compile(path.resolve(__dirname, 'mails1'));
     // mailing.setProvider();
     t.done();
   },
 
-  '_sendThroughProvider should not be called if sendIf returned nothing': function(t){
+  '_sendThroughProvider should not be called if sendIf returned nothing': function (t) {
     t.expect(4);
     var mailing = Mailing.compile(path.resolve(__dirname, 'mails1'));
-    mailing._sendThroughProvider(function(err, res){
+    mailing._sendThroughProvider(function (err, res) {
       t.deepEqual(err, new Error("sendIf returned a falsy value"), "err");
       t.deepEqual(res, undefined);
     }, {}, false);
-    mailing._sendThroughProvider(function(err, res){
+    mailing._sendThroughProvider(function (err, res) {
       t.deepEqual(err, new Error("sendIf returned a falsy value"), "err");
       t.deepEqual(res, undefined);
     }, {});
     t.done();
   },
 
-  '_sendThroughProvider should call mail._compileWith & provider.send': function(t){
+  '_sendThroughProvider should call mail._compileWith & provider.send': function (t) {
     t.expect(4);
-    var i= 0;
+    var i = 0;
     var mailing = Mailing.compile(path.resolve(__dirname, 'mails1'), {
-      mailProvider:{
-        send: function(mail, fn){
-          if(i++ === 0){
-            t.deepEqual(mail.mandrill, { message: { subject: 'Thank you !',from_email: 'plop@plop.com',from_name: 'Mr Plop' } });
+      mailProvider: {
+        send: function (mail, fn) {
+          if (i++ === 0) {
+            t.deepEqual(mail.mandrill, {
+              message: {
+                subject: 'Thank you !',
+                from_email: 'plop@plop.com',
+                from_name: 'Mr Plop'
+              }
+            });
             t.equal(mail.html, '<html><body><div style="background-color: #ff00ff; color: #0000ff;">Plop ploop</div>\n<div style="background-color: #ff00ff; color: #0000ff;">Awesome !!</div>\n</body></html>');
-            t.deepEqual(mail.data, {heyOh:"heyOh",Hey: "ploop"}, "");
+            t.deepEqual(mail.data, {
+              heyOh: "heyOh",
+              Hey: "ploop"
+            }, "");
           }
           fn();
         }
@@ -127,16 +148,16 @@ exports['Mailing'] = {
     });
 
 
-    mailing._sendThroughProvider(function(){
+    mailing._sendThroughProvider(function () {
       t.ok(true);
       t.done();
     }, mailing.mails[1], {
-      heyOh:"heyOh",
+      heyOh: "heyOh",
       Hey: "ploop"
     });
   },
 
-  '.getMail(name)': function(t){
+  '.getMail(name)': function (t) {
     var mailing = Mailing.compile(path.resolve(__dirname, 'mails1'));
 
     t.strictEqual(mailing.getMail(), undefined);
@@ -146,61 +167,76 @@ exports['Mailing'] = {
   },
 
 
-  '.compile mailProvider': function(t){
+  '.compile mailProvider': function (t) {
     t.expect(4);
 
-    t.throws(function(){
-      Mailing.compile(path.resolve(__dirname, 'mails1'),{
-        mailProvider:{plop:true}
+    t.throws(function () {
+      Mailing.compile(path.resolve(__dirname, 'mails1'), {
+        mailProvider: {
+          plop: true
+        }
       });
     });
 
-    t.throws(function(){
-      Mailing.compile(path.resolve(__dirname, 'mails1'),{
-        mailProvider:{}
+    t.throws(function () {
+      Mailing.compile(path.resolve(__dirname, 'mails1'), {
+        mailProvider: {}
       });
     });
 
-    t.throws(function(){
-      Mailing.compile(path.resolve(__dirname, 'mails1'),{
-        mailProvider:{send: function(){}}
+    t.throws(function () {
+      Mailing.compile(path.resolve(__dirname, 'mails1'), {
+        mailProvider: {
+          send: function () {}
+        }
       });
     });
 
-    t.ok(Mailing.compile(path.resolve(__dirname, 'mails1'),{
-      mailProvider:{send: function(mail, fn){}}
+    t.ok(Mailing.compile(path.resolve(__dirname, 'mails1'), {
+      mailProvider: {
+        send: function (mail, fn) {}
+      }
     }) instanceof Mailing);
 
     t.done();
   },
 
-  '.compile templateEngine': function(t){
-    t.throws(function(){
-      Mailing.compile(path.resolve(__dirname, 'mails1'),{
-        templateEngine:{}
+  '.compile templateEngine': function (t) {
+    t.throws(function () {
+      Mailing.compile(path.resolve(__dirname, 'mails1'), {
+        templateEngine: {}
       });
     });
 
-    t.throws(function(){
-      Mailing.compile(path.resolve(__dirname, 'mails1'),{
-        templateEngine:{}
+    t.throws(function () {
+      Mailing.compile(path.resolve(__dirname, 'mails1'), {
+        templateEngine: {}
       });
     });
 
-    t.throws(function(){
-      Mailing.compile(path.resolve(__dirname, 'mails1'),{
-        templateEngine:{compile: function(){}, exec: function(){}}
+    t.throws(function () {
+      Mailing.compile(path.resolve(__dirname, 'mails1'), {
+        templateEngine: {
+          compile: function () {},
+          exec: function () {}
+        }
       });
     });
 
-    t.throws(function(){
-      Mailing.compile(path.resolve(__dirname, 'mails1'),{
-        templateEngine:{compile: function(template){}, exec: function(fnCompiledTemplate){}}
+    t.throws(function () {
+      Mailing.compile(path.resolve(__dirname, 'mails1'), {
+        templateEngine: {
+          compile: function (template) {},
+          exec: function (fnCompiledTemplate) {}
+        }
       });
     });
 
-    Mailing.compile(path.resolve(__dirname, 'mails1'),{
-      templateEngine:{compile: function(template){}, exec: function(fnCompiledTemplate, data){}}
+    Mailing.compile(path.resolve(__dirname, 'mails1'), {
+      templateEngine: {
+        compile: function (template) {},
+        exec: function (fnCompiledTemplate, data) {}
+      }
     });
     t.done();
   }
