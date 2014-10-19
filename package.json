@@ -11,12 +11,10 @@
   "bugs": {
     "url": "https://github.com/FGRibreau/node-transacemail/issues"
   },
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "https://github.com/FGRibreau/node-transacemail/blob/master/LICENSE-MIT"
-    }
-  ],
+  "licenses": [{
+    "type": "MIT",
+    "url": "https://github.com/FGRibreau/node-transacemail/blob/master/LICENSE-MIT"
+  }],
   "main": "lib/index",
   "engines": {
     "node": ">= 0.6.0"
@@ -24,7 +22,7 @@
   "dependencies": {
     "lodash": "~1.0.0-rc.3",
     "glob": "~3.1.17",
-    "juice": "0.5.0",
+    "juice": "git+ssh://git@bitbucket.org:FGRibreau/juice.git",
     "q": "~0.8.12",
     "async": "~0.2.1",
     "deep-extend": "~0.2.5"
