@@ -136,7 +136,7 @@ exports['Mailing'] = {
                 from_name: 'Mr Plop'
               }
             });
-            t.equal(mail.html, '<html><body><div style="background-color: #ff00ff; color: #0000ff;">Plop ploop</div>\n<div style="background-color: #ff00ff; color: #0000ff;">Awesome !!</div>\n</body></html>');
+            t.equal(mail.html, '<div style="background-color: #ff00ff; color: #0000ff;">Plop ploop</div>\n<div style="background-color: #ff00ff; color: #0000ff;">Awesome !!</div>\n');
             t.deepEqual(mail.data, {
               heyOh: "heyOh",
               Hey: "ploop"
