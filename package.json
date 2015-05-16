@@ -1,5 +1,5 @@
 {
-  "version": "0.1.9",
+  "version": "0.1.10",
   "name": "transacemail",
   "description": "Transactional Email & Templated Email for NodeJS",
   "homepage": "https://github.com/FGRibreau/node-transacemail",
@@ -11,10 +11,12 @@
   "bugs": {
     "url": "https://github.com/FGRibreau/node-transacemail/issues"
   },
-  "licenses": [{
-    "type": "MIT",
-    "url": "https://github.com/FGRibreau/node-transacemail/blob/master/LICENSE-MIT"
-  }],
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/FGRibreau/node-transacemail/blob/master/LICENSE-MIT"
+    }
+  ],
   "main": "lib/index",
   "engines": {
     "node": ">= 0.6.0"
