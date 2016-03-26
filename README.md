@@ -29,8 +29,9 @@ v0.1.8
 v0.1.0 - Initial commit (4 fev. 2012)
 
 ## Donate
-[Donate Bitcoins](https://coinbase.com/checkouts/fc3041b9d8116e0b98e7d243c4727a30)
+
+I maintain this project in my free time, if it helped you please support my work via [paypal](https://paypal.me/fgribreau) or [bitcoins](https://www.coinbase.com/fgribreau), thanks a lot!
 
 ## License
-Copyright (c) 2013 Francois-Guillaume Ribreau
+Copyright (c) Francois-Guillaume Ribreau
 Licensed under the MIT license.
