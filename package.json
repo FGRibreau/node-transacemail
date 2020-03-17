@@ -41,7 +41,7 @@
     "mailjet"
   ],
   "devDependencies": {
-    "grunt": "~0.3.15",
+    "grunt": "~1.1.0",
     "nodeunit": "~0.7.4",
     "grunt-shell": "~0.1.4",
     "doxx": "~0.7.0"
